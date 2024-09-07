@@ -23,4 +23,10 @@ public class LocationService {
         return locationRepository.findUntrashed();
     }
 
+    public Location findByCode(String code){
+        return locationRepository.findByCode(code);
+    }
+
+
+
 }

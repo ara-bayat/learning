@@ -1,8 +1,8 @@
-package Controller;
+package org.restapi.restapi;
 
-import Dto.Location;
-import Service.LocationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,17 +13,25 @@ import java.net.URI;
 @RestController
 @RequestMapping("/V1/locations")
 public class LocationApiController {
-    private final LocationService locationService;
+    @Autowired
+    private LocationService locationService;
 
-    public LocationApiController(LocationService locationService) {
-        super();
-        this.locationService = locationService;
-    }
+
     @PostMapping
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
         Location addedLocation = locationService.addLocation(location);
         URI uri=URI.create("/V1/locations/"+location.getCode());
         return ResponseEntity.created(uri).body(addedLocation);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<?> findUntrashedLocations() {
+        var locations=locationService.findUntrashedLocations();
+        if(locations.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(locations);
     }
 
 }

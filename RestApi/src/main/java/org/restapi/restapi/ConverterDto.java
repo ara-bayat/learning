@@ -1,4 +1,4 @@
-package Dto;
+package org.restapi.restapi;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
